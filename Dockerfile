@@ -1,7 +1,7 @@
 #
 # Dockerfile for an image with the currently checked out version of zipline installed. To build:
 #
-#    docker build -t quantopian/zipline .
+#    docker build -t alpacamarkets/alpaca-zipline .
 #
 # To run the container:
 #
@@ -9,13 +9,7 @@
 #
 # To access Jupyter when running docker locally (you may need to add NAT rules):
 #
-#    https://127.0.0.1
-#
-# default password is jupyter.  to provide another, see:
-#    http://jupyter-notebook.readthedocs.org/en/latest/public_server.html#preparing-a-hashed-password
-#
-# once generated, you can pass the new value via `docker run --env` the first time
-# you start the container.
+#    https://127.0.0.1:8888
 #
 # You can also run an algo using the docker exec command.  For example:
 #
@@ -67,23 +61,14 @@ RUN pip install 'numpy>=1.11.1,<2.0.0' \
 RUN pip install git+https://github.com/alpacahq/zipline@98e860b55c9fc4a8a825fe6c0f558b0fb2866bf8
 RUN pip install alpaca-trade-api==0.10.0
 
-#
-# This is then only file we need from source to remain in the
-# image after build and install.
-#
-
-# ADD ./etc/docker_cmd.sh /
-
-#
-# make port available. /zipline is made a volume
-# for developer testing.
-#
 EXPOSE ${NOTEBOOK_PORT}
 
+ADD ./extension.py /root/.zipline/extension.py
 
 #
 # start the jupyter server
 #
 
 WORKDIR ${PROJECT_DIR}
-# CMD /docker_cmd.sh
+ADD ./start-jupyter.sh /
+CMD /start-jupyter.sh
