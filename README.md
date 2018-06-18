@@ -12,8 +12,8 @@ All you need is docker installed in your system.
 ## Usage
 
 There are two usages for this container.  One is a Jupyter notebook enivronment for
-exploration, and the other is a CLI environment to launch yoru algorithm for real money
-trading.
+the exploration purpose, and the other is a CLI environment to launch your algorithm
+for real money trading.
 
 In either case, you should set Alpaca API Key environment variables first.
 
@@ -21,6 +21,8 @@ In either case, you should set Alpaca API Key environment variables first.
 $ export APCA_API_KEY_ID=xxxxx
 $ export APCA_API_SECRET_KEY=yyyy
 ```
+
+The container installs [Alpaca's official python SDK](https://github.com/alpacahq/alpaca-trade-api-python).
 
 ### Jupyter notebook environment
 
