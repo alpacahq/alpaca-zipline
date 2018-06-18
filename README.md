@@ -1,9 +1,13 @@
 # Zipline Docker Image for Alpaca API
 
-This is the Alpaca official docker container packages zipline (zipline-live). With this
+This is the Alpaca official docker container packages [zipline](https://github.com/zipline-live/zipline). With this
 container image, you can easily run your Quantopian algorithm with live trading. This is
 to run your algorithm in your computer, or server by yourself, and Alpaca is also desiging
 a "one-click" solution to run your algorithm without having your server.
+
+## Prerequisite
+
+All you need is docker installed in your system.
 
 ## Usage
 
@@ -24,7 +28,9 @@ By default, the container launches a Jupyter notebook with no password on the po
 You need to forward the port so you can access the notebook from your browser.
 
 ```
-$ docker run -it --rm -e APCA_API_KEY_ID -e APCA_API_SECRET_KEY -p 8888:8888 alpacamarkets/alpaca-zipline
+$ docker run -it --rm \
+    -e APCA_API_KEY_ID -e APCA_API_SECRET_KEY -p 8888:8888 \
+    alpacamarkets/alpaca-zipline
 ```
 
 Then, open http://localhost:8888/ . You can start accessing Alpaca API immediately
@@ -45,6 +51,10 @@ $ docker run -it --rm -e APCA_API_KEY_ID -e APCA_API_SECRET_KEY \
     alpacamarkets/alpaca-zipline bash
 ```
 
+Modify `DATADIR` and `ALGODIR` for your needs. The data directory is used to store the
+bundle data and better to be mounted from the host directory.  The algorithm directory
+is where our algorithm file is located.
+
 #### Download alpaca-bundle
 
 In order to run the live trading, you still need to have a bundle data. Since zipline's default
@@ -60,7 +70,7 @@ It may take a couple of minutes to complete.
 
 #### Run algorithm
 
-Once bundle is saved, you are ready to run your algorithm.
+Once the bundle is saved, you are ready to run your algorithm.
 
 ```
 $ zipline run -f /work/myalgo.py \
@@ -69,6 +79,9 @@ $ zipline run -f /work/myalgo.py \
     --realtime-bar-target /work/realtime-bars/ \
     --bundle alpaca-bundle --data-frequency minute
 ```
+
+Note the `--broker-uri` parameter is ignored with alpaca broker, but you have to specify something.
+The `--state-file` is the file location where the zipline context is serialized.
 
 
 ## Compatibility
